@@ -17,18 +17,83 @@
         }
       });
     </script>
+    <script>
+  AFRAME.registerComponent('trackpad-move', {
+    schema: {
+      controller: { type: 'selector' },   // entity with laser-controls
+      speed:      { default: 2.0 },       // meters per second
+      deadzone:   { default: 0.2 },
+      requirePress: { default: false }    // true = only move while pad is clicked
+    },
+
+    init: function () {
+      this.axis = { x: 0, y: 0 };
+      this.touching = false;
+      this.pressed = false;
+
+      this.forward = new THREE.Vector3();
+      this.right = new THREE.Vector3();
+      this.up = new THREE.Vector3(0, 1, 0);
+      this.move = new THREE.Vector3();
+
+      var ctrl = this.data.controller;
+      var self = this;
+
+      ctrl.addEventListener('axismove', function (evt) {
+        var a = evt.detail.axis;
+        self.axis.x = a[0] || 0;
+        self.axis.y = a[1] || 0;
+      });
+      ctrl.addEventListener('trackpadtouchstart', function () { self.touching = true; });
+      ctrl.addEventListener('trackpadtouchend', function () {
+        self.touching = false;
+        self.axis.x = self.axis.y = 0;   // Go can keep the last value after release
+      });
+      ctrl.addEventListener('trackpaddown', function () { self.pressed = true; });
+      ctrl.addEventListener('trackpadup',   function () { self.pressed = false; });
+    },
+
+    tick: function (time, dt) {
+      if (!dt) return;
+      var d = this.data;
+      var active = d.requirePress ? this.pressed : this.touching;
+      if (!active) return;
+
+      var x = Math.abs(this.axis.x) > d.deadzone ? this.axis.x : 0;
+      var y = Math.abs(this.axis.y) > d.deadzone ? this.axis.y : 0;
+      if (!x && !y) return;
+
+      // Direction the headset is facing, flattened to the ground
+      var cam = this.el.sceneEl.camera;
+      cam.getWorldDirection(this.forward);
+      this.forward.y = 0;
+      if (this.forward.lengthSq() < 1e-6) return;
+      this.forward.normalize();
+      this.right.crossVectors(this.forward, this.up).normalize();
+
+      // Pad up is negative Y, so negate it to move forward
+      this.move.set(0, 0, 0)
+        .addScaledVector(this.forward, -y)
+        .addScaledVector(this.right, x)
+        .multiplyScalar(d.speed * dt / 1000);
+
+      this.el.object3D.position.add(this.move);
+    }
+  });
+</script>
   </head>
   <body>
     <a-scene>
-      <a-entity id="rig" position="0 0 0">
-        <a-camera id="camera" wasd-controls="enabled: false"
-                  cursor="rayOrigin: mouse"
-                  raycaster="objects: .clickable"></a-camera>
+      <a-entity id="rig" position="0 0 0"
+          trackpad-move="controller: #right-hand; speed: 2">
+            <a-camera id="camera" wasd-controls="enabled: false"
+              cursor="rayOrigin: mouse"
+              raycaster="objects: .clickable"></a-camera>
 
-        <!-- Real tracked Go controller with laser + raycaster -->
-        <a-entity laser-controls="hand: right"
-                  raycaster="objects: .clickable; far: 20"
-                  line="color: #00e5ff; opacity: 0.8"></a-entity>
+            <a-entity id="right-hand"
+              laser-controls="hand: right"
+              raycaster="objects: .clickable; far: 20"
+              line="color: #00e5ff; opacity: 0.8"></a-entity>
       </a-entity>
 
       <a-box class="clickable" click-to-color position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
