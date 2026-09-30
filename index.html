@@ -2,75 +2,41 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script>
+      AFRAME.registerComponent('click-to-color', {
+        schema: { color: { default: 'lightgreen' } },
+        init: function () {
+          var el = this.el;
+          var original = el.getAttribute('color');
+          var toggled = false;
+          el.addEventListener('click', function () {
+            console.log('Clicked:', el.tagName);
+            toggled = !toggled;
+            el.setAttribute('color', toggled ? this.data.color : original);
+          }.bind(this));
+        }
+      });
+    </script>
   </head>
-
   <body>
     <a-scene>
-      <a-entity id="rig" position="0 1.6 0">
-        <a-camera
-          id="camera"
-          look-controls="magicWindowTrackingEnabled: true"
-          wasd-controls="enabled: false"
-        ></a-camera>
+      <a-entity id="rig" position="0 0 0">
+        <a-camera id="camera" wasd-controls="enabled: false"
+                  cursor="rayOrigin: mouse"
+                  raycaster="objects: .clickable"></a-camera>
 
-        <!-- Visible fallback controller: stays in front/right of the camera -->
-        <a-entity
-          id="go-controller"
-          position="0.35 -0.30 -0.65"
-          rotation="-25 0 0"
-          geometry="primitive: box; width: 0.10; height: 0.18; depth: 0.32"
-          material="color: #222; metalness: 0.5; roughness: 0.35"
-        >
-          <!-- A visible laser extending forward from the controller -->
-          <a-entity
-            position="0 0 -2.5"
-            geometry="primitive: cylinder; radius: 0.006; height: 5"
-            material="color: #00e5ff; opacity: 0.8; transparent: true"
-            rotation="90 0 0"
-          ></a-entity>
-        </a-entity>
+        <!-- Real tracked Go controller with laser + raycaster -->
+        <a-entity laser-controls="hand: right"
+                  raycaster="objects: .clickable; far: 20"
+                  line="color: #00e5ff; opacity: 0.8"></a-entity>
       </a-entity>
 
-      <a-box
-        class="clickable"
-        position="-1 0.5 -3"
-        rotation="0 45 0"
-        color="#4CC3D9"
-      ></a-box>
+      <a-box class="clickable" click-to-color position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-sphere class="clickable" click-to-color position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+      <a-cylinder class="clickable" click-to-color position="1 0.75 -3" radius="0.6" height="2" color="#FFC65D"></a-cylinder>
 
-      <a-sphere
-        class="clickable"
-        position="0 1.25 -5"
-        radius="1.25"
-        color="#EF2D5E"
-      ></a-sphere>
-
-      <a-cylinder
-        class="clickable"
-        position="1 0.75 -3"
-        radius="0.6"
-        height="2"
-        color="#FFC65D"
-      ></a-cylinder>
-
-      <a-plane
-        position="0 0 -4"
-        rotation="-90 0 0"
-        width="100"
-        height="100"
-        color="#7BC8A4"
-      ></a-plane>
-
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="100" height="100" color="#7BC8A4"></a-plane>
       <a-sky color="#ECECEC"></a-sky>
-
-      <script>
-        // Target the specific element and listen for a click
-        document.querySelector('.clickable').addEventListener('click', function (evt) {
-          console.log('Entity was clicked!');
-          // Change color on click as an example
-          this.setAttribute('color', 'lightgreen');
-        });
-      </script>
     </a-scene>
   </body>
 </html>
