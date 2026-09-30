@@ -69,6 +69,15 @@
       ></a-plane>
 
       <a-sky color="#ECECEC"></a-sky>
+
+      <script>
+        // Target the specific element and listen for a click
+        document.querySelector('.clickable').addEventListener('click', function (evt) {
+          console.log('Entity was clicked!');
+          // Change color on click as an example
+          this.setAttribute('color', 'lightgreen');
+        });
+      </script>
     </a-scene>
   </body>
 </html>
