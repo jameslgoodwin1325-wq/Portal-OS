@@ -1,29 +1,66 @@
+<!doctype html>
 <html>
   <head>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
   </head>
+
   <body>
     <a-scene>
-      <a-entity id="rig" position="0 0 0">
-      <a-camera
-        id="camera"
-        look-controls="magicWindowTrackingEnabled: true"
-        wasd-controls="enabled: false"
-      ></a-camera>
+      <a-entity id="rig" position="0 1.6 0">
+        <a-camera
+          id="camera"
+          look-controls="magicWindowTrackingEnabled: true"
+          wasd-controls="enabled: false"
+        ></a-camera>
 
-      <!-- Oculus Go hand controller -->
-      <a-entity
-        id="go-controller"
-        oculus-go-controls="hand: right; model: true"
-        laser-controls="hand: right; model: true"
-        raycaster="objects: .clickable; far: 10"
-        cursor="fuse: false; rayOrigin: entity"
-      ></a-entity>
-    </a-entity>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.6" height="2" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="100" height="100" color="#7BC8A4"></a-plane>
+        <!-- Visible fallback controller: stays in front/right of the camera -->
+        <a-entity
+          id="go-controller"
+          position="0.35 -0.30 -0.65"
+          rotation="-25 0 0"
+          geometry="primitive: box; width: 0.10; height: 0.18; depth: 0.32"
+          material="color: #222; metalness: 0.5; roughness: 0.35"
+        >
+          <!-- A visible laser extending forward from the controller -->
+          <a-entity
+            position="0 0 -2.5"
+            geometry="primitive: cylinder; radius: 0.006; height: 5"
+            material="color: #00e5ff; opacity: 0.8; transparent: true"
+            rotation="90 0 0"
+          ></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-box
+        class="clickable"
+        position="-1 0.5 -3"
+        rotation="0 45 0"
+        color="#4CC3D9"
+      ></a-box>
+
+      <a-sphere
+        class="clickable"
+        position="0 1.25 -5"
+        radius="1.25"
+        color="#EF2D5E"
+      ></a-sphere>
+
+      <a-cylinder
+        class="clickable"
+        position="1 0.75 -3"
+        radius="0.6"
+        height="2"
+        color="#FFC65D"
+      ></a-cylinder>
+
+      <a-plane
+        position="0 0 -4"
+        rotation="-90 0 0"
+        width="100"
+        height="100"
+        color="#7BC8A4"
+      ></a-plane>
+
       <a-sky color="#ECECEC"></a-sky>
     </a-scene>
   </body>
