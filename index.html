@@ -4,9 +4,22 @@
   </head>
   <body>
     <a-scene>
-      <a-camera>
-        <a-entity oculus-go-controls laser-controls></a-entity>
-      </a-camera>
+      <a-entity id="rig" position="0 1.6 0">
+      <a-camera
+        id="camera"
+        look-controls="magicWindowTrackingEnabled: true"
+        wasd-controls="enabled: false"
+      ></a-camera>
+
+      <!-- Oculus Go hand controller -->
+      <a-entity
+        id="go-controller"
+        oculus-go-controls="hand: right; model: true"
+        laser-controls="hand: right"
+        raycaster="objects: .clickable; far: 10"
+        cursor="fuse: false; rayOrigin: entity"
+      ></a-entity>
+    </a-entity>
       <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
       <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
       <a-cylinder position="1 0.75 -3" radius="0.6" height="2" color="#FFC65D"></a-cylinder>
