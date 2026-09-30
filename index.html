@@ -13,11 +13,11 @@
 
       <!-- Oculus Go hand controller -->
       <a-entity
-          id="go-controller"
-          position="0.35 -0.30 -0.65"
-          rotation="-25 0 0"
-          geometry="primitive: box; width: 0.10; height: 0.18; depth: 0.32"
-          material="color: #222; metalness: 0.5; roughness: 0.35"
+        id="go-controller"
+        oculus-go-controls="hand: right; model: true"
+        laser-controls="hand: right; model: true"
+        raycaster="objects: .clickable; far: 10"
+        cursor="fuse: false; rayOrigin: entity"
       ></a-entity>
     </a-entity>
       <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
