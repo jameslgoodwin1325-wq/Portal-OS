@@ -1,25 +1,9 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
   </head>
   <body>
-    <script>
-  AFRAME.registerComponent('follow-controller', {
-    schema: {
-      target: {type: 'selector'}
-    },
-    tick: function () {
-      if (!.data.target) return;
-      
-      // Copy position
-      const targetPos = this.data.target.object3D.position;
-      this.el.object3D.position.copy(targetPos);
-
-      // Copy rotation
-      const targetRot = this.data.target.object3D.rotation;
-      this.el.object3D.rotation.copy(targetRot);
-    }
-  });
     <a-scene>
       <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
       <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
