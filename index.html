@@ -21,11 +21,25 @@
       AFRAME.registerComponent('player-controls', {
         init: function () {
           var el = this.el;
-          el.addEventListener('click', function () {
+          
+          window.addEventListener('keydown', function (e) {
             
             pos = new THREE.Vector3();
             el.object3D.getWorldPosition(controllerWorldPos);
-            pos.x += 1;
+            switch(e.code) {
+                catch "ArrowRight":
+                  pos.x += 1;
+                  break;
+                catch "ArrowLeft":
+                  pos.x -= 1;
+                  break;
+                catch "ArrowUp":
+                  pos.z += 1;
+                  break;
+                catch "ArrowDown":
+                  pos.z -= 1;
+                  break;
+            }
             el.setAttribute('position',{x:pos.x, y:pos.x, z:pos} );
             
           }.bind(this));
