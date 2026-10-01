@@ -5,7 +5,9 @@
 1. Create your dream
 2. Ultimate creativity
 3. Expand VR into a new light
-<br>
+
+&nbsp;
+
 >[!NOTE]
 >Works with
 >1. Oculus Go
