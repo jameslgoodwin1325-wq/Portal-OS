@@ -21,7 +21,7 @@
       AFRAME.registerComponent('player-controls', {
         init: function () {
           var el = this.el;
-          el.addEventListener('trackpaddown', function () {
+          el.addEventListener('click', function () {
             
             pos = new THREE.Vector3();
             el.object3D.getWorldPosition(controllerWorldPos);
