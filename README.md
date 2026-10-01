@@ -13,3 +13,7 @@
 >1. Oculus Go
 >2. Meta Quests 1-3
 >3. Any other VR headset that supports a-frame version 1.0.4
+
+>[!WARNING]
+>Remember to read the saftey manual on your VR headset
+>Don't use VR straight for a really long time
