@@ -15,5 +15,5 @@
 >3. Any other VR headset that supports a-frame version 1.0.4
 
 >[!WARNING]
->Remember to read the saftey manual on your VR headset
->\nDon't use VR straight for a really long time
+> -
+> Remember to read the VR safety manual
