@@ -6,6 +6,7 @@
 2. Ultimate creativity
 3. Expand VR into a new light
 
+>[!NOTE]
 >Works with
 >1. Oculus Go
 >2. Meta Quests 1-3
