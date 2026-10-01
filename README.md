@@ -6,12 +6,8 @@
 2. Ultimate creativity
 3. Expand VR into a new light
 
-```js example-good
-const greeting = "I'm a good example";
-```
-
-> [!CALLOUT]
->
-> **This is how you write a callout.**
->
-> It can have multiple paragraphs.
+[!NOTE]
+>###Works with
+>1. Oculus Go
+>2. Meta Quests 1-3
+>3. Any other VR headset that supports a-frame version 1.0.4
