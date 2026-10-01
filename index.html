@@ -18,38 +18,71 @@
       });
 
       //Player Controls
-      AFRAME.registerComponent('player-controls', {
-        init: function () {
-          var el = this.el;
-          
-          window.addEventListener('keydown', function (e) {
-            
-            pos = new THREE.Vector3();
-            el.object3D.getWorldPosition(controllerWorldPos);
-            switch(e.code) {
-                catch "ArrowRight":
-                  pos.x += 1;
-                  break;
-                catch "ArrowLeft":
-                  pos.x -= 1;
-                  break;
-                catch "ArrowUp":
-                  pos.z += 1;
-                  break;
-                catch "ArrowDown":
-                  pos.z -= 1;
-                  break;
-            }
-            el.setAttribute('position',{x:pos.x, y:pos.x, z:pos} );
-            
-          }.bind(this));
-        }
-      });
+      AFRAME.registerComponent('move-with-arrows', {
+  schema: {
+    speed: { type: 'number', default: 5 } // Units per second
+  },
+
+  init: function () {
+    // Keep track of which keys are currently pressed
+    this.keys = {
+      ArrowUp: false,
+      ArrowDown: false,
+      ArrowLeft: false,
+      ArrowRight: false
+    };
+
+    // Bind event handlers
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
+
+    window.addEventListener('keydown', this.onKeyDown);
+    window.addEventListener('keyup', this.onKeyUp);
+  },
+
+  remove: function () {
+    window.removeEventListener('keydown', this.onKeyDown);
+    window.removeEventListener('keyup', this.onKeyUp);
+  },
+
+  onKeyDown: function (evt) {
+    if (evt.code in this.keys) {
+      this.keys[evt.code] = true;
+    }
+  },
+
+  onKeyUp: function (evt) {
+    if (evt.code in this.keys) {
+      this.keys[evt.code] = false;
+    }
+  },
+
+  // The tick function runs on every frame of the A-Frame render loop
+  tick: function (time, timeDelta) {
+    // Convert timeDelta from milliseconds to seconds
+    const dt = timeDelta / 1000;
+    const speed = this.data.speed;
+    const distance = speed * dt;
+
+    // Get the current position object of the entity
+    const position = this.el.getAttribute('position');
+
+    // Update coordinates based on active keys
+    if (this.keys.ArrowUp)    position.z -= distance; // Move forward (negative Z)
+    if (this.keys.ArrowDown)  position.z += distance; // Move backward (positive Z)
+    if (this.keys.ArrowLeft)  position.x -= distance; // Move left (negative X)
+    if (this.keys.ArrowRight) position.x += distance; // Move right (positive X)
+
+    // Apply the updated position back to the entity
+    this.el.setAttribute('position', position);
+  }
+});
+
     </script>
   </head>
   <body>
-    <a-scene player-controls>
-      <a-entity id="rig" player-controls position="0 0 0">
+    <a-scene>
+      <a-entity id="rig" move-with-arrows="speed: 8" position="0 0 0">
         <a-camera id="camera" wasd-controls="enabled: false"
                   cursor="rayOrigin: mouse"
                   raycaster="objects: .clickable"></a-camera>
