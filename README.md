@@ -6,8 +6,7 @@
 2. Ultimate creativity
 3. Expand VR into a new light
 
-[!NOTE]
->###Works with
+>Works with
 >1. Oculus Go
 >2. Meta Quests 1-3
 >3. Any other VR headset that supports a-frame version 1.0.4
