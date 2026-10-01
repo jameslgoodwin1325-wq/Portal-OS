@@ -9,3 +9,9 @@
 ```js example-good
 const greeting = "I'm a good example";
 ```
+
+> [!CALLOUT]
+>
+> **This is how you write a callout.**
+>
+> It can have multiple paragraphs.
