@@ -16,11 +16,26 @@
           }.bind(this));
         }
       });
+
+      //Player Controls
+      AFRAME.registerComponent('player-controls', {
+        init: function () {
+          var el = this.el;
+          el.addEventListener('trackpaddown', function () {
+            
+            pos = new THREE.Vector3();
+            el.object3D.getWorldPosition(controllerWorldPos);
+            pos.x += 1;
+            el.setAttribute('position', pos.x + " " + pos.y + " " + pos.z);
+            
+          }.bind(this));
+        }
+      });
     </script>
   </head>
   <body>
     <a-scene>
-      <a-entity id="rig" position="0 0 0">
+      <a-entity id="rig" player-controls position="0 0 0">
         <a-camera id="camera" wasd-controls="enabled: false"
                   cursor="rayOrigin: mouse"
                   raycaster="objects: .clickable"></a-camera>
