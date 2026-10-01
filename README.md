@@ -14,6 +14,8 @@
 >2. Meta Quests 1-3
 >3. Any other VR headset that supports a-frame version 1.0.4
 
+&nbsp;
+
 >[!WARNING]
 > Don't use for a very long time.
 > Remember to read the VR safety manual
